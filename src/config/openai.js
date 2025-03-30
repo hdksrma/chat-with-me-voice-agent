@@ -1,17 +1,12 @@
-const express = require('express');
-const cors = require('cors');
+/**
+ * OpenAI configuration module
+ * Sets up the OpenAI client and provides the system prompt
+ */
+
 const { OpenAI } = require('openai');
 require('dotenv').config();
 
-const app = express();
-const port = process.env.PORT || 3000;
-
-
-app.use(cors());
-app.use(express.json());
-app.use(express.static('public'));
-
-
+// Initialize OpenAI with API key from environment variables
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
@@ -53,27 +48,7 @@ Work Experience
 
 `;
 
-// API endpoint for chat
-app.post('/api/chat', async (req, res) => {
-  try {
-    const userMessage = req.body.message;
-    
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o",
-      messages: [
-        { "role": "system", "content": personalSystemPrompt },
-        { "role": "user", "content": userMessage }
-      ],
-      max_tokens: 300
-    });
-    
-    res.json({ response: completion.choices[0].message.content });
-  } catch (error) {
-    console.error('Error calling OpenAI:', error);
-    res.status(500).json({ error: 'Failed to process request' });
-  }
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+module.exports = {
+  openai,
+  personalSystemPrompt
+};
