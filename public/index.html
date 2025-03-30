@@ -93,7 +93,7 @@
     <div class="container mt-4">
         <div class="chat-container">
             <div class="chat-header">
-                Hello there! I am Hardik, you can chat with me here!
+                Hello! I am hardik, you can chat with me here!
             </div>
             <div class="chat-body" id="chatBody">
                 <div class="message bot-message">
@@ -248,35 +248,84 @@
             isListening = false;
         };
         
-        // Text-to-speech function
+        // Improved text-to-speech function that handles longer texts
         function speakText(text) {
             // Stop any ongoing speech
             synth.cancel();
             
-            // Create a new utterance
-            const utterance = new SpeechSynthesisUtterance(text);
+            // Split text into sentences for more reliable speaking
+            const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
             
-            // Optional: customize voice
-            utterance.rate = 1; // Speed: 0.1 to 10
-            utterance.pitch = 1; // Pitch: 0 to 2
+            // Queue of sentences to speak
+            const speakQueue = [...sentences];
+            let speaking = false;
             
-            // Get available voices and set a preferred one (if available)
-            let voices = synth.getVoices();
-            if (voices.length > 0) {
-                // Try to find a natural sounding English voice
-                const preferredVoice = voices.find(voice => 
-                    voice.name.includes('Google') && voice.lang.includes('en') ||
-                    voice.name.includes('Daniel') ||
-                    voice.name.includes('Samantha')
-                );
+            // Function to speak the next sentence in the queue
+            function speakNext() {
+                if (speakQueue.length === 0 || speaking) return;
                 
-                if (preferredVoice) {
-                    utterance.voice = preferredVoice;
+                speaking = true;
+                const sentence = speakQueue.shift();
+                const utterance = new SpeechSynthesisUtterance(sentence);
+                
+                // Customize voice
+                utterance.rate = 1; // Speed: 0.1 to 10
+                utterance.pitch = 1; // Pitch: 0 to 2
+                
+                // Voice selection
+                let voices = synth.getVoices();
+                if (voices.length > 0) {
+                    // Try to find a natural sounding English voice
+                    const preferredVoice = voices.find(voice => 
+                        (voice.name.includes('Google') && voice.lang.includes('en')) ||
+                        voice.name.includes('Daniel') ||
+                        voice.name.includes('Samantha')
+                    );
+                    
+                    if (preferredVoice) {
+                        utterance.voice = preferredVoice;
+                    }
                 }
+                
+                // Set up event handlers
+                utterance.onend = () => {
+                    speaking = false;
+                    speakNext(); // Speak the next sentence
+                };
+                
+                utterance.onerror = (event) => {
+                    console.error('Speech synthesis error:', event);
+                    speaking = false;
+                    speakNext(); // Try the next sentence
+                };
+                
+                // Actually speak the sentence
+                synth.speak(utterance);
             }
             
-            // Speak the text
-            synth.speak(utterance);
+            // Add event listener for voices changed (in case voices aren't loaded yet)
+            if (speechSynthesis.onvoiceschanged !== undefined && !window.voicesLoaded) {
+                speechSynthesis.onvoiceschanged = () => {
+                    window.voicesLoaded = true;
+                    speakNext();
+                };
+            }
+            
+            // Start speaking
+            speakNext();
+            
+            // Chrome has a bug where speech synthesis stops after ~15 seconds
+            // This is a workaround to keep it going
+            const chromeWorkaround = setInterval(() => {
+                if (speakQueue.length === 0 && !speaking) {
+                    clearInterval(chromeWorkaround);
+                    return;
+                }
+                
+                if (synth.paused) {
+                    synth.resume();
+                }
+            }, 5000);
         }
     </script>
 </body>
