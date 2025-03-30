@@ -36,6 +36,21 @@ Some might assume that I focus only on AI model development, but I am equally in
 ### HOW I PUSH BOUNDARIES:  
 I continuously challenge myself by working on high-impact AI projects, contributing to research, and exploring emerging technologies. From optimizing large-scale AI workflows to building automation pipelines, I believe in pushing the limits of what AI can achieve in real-world applications.  
 
+### WORK EXPERIENCE SUMMARY:
+
+I have diverse experience in AI engineering, backend development, and automation, working with startups and enterprises to build scalable AI-driven solutions. As a Founding AI Engineer at Synthetic Bee, I develop multi-agent AI workflows and RAG models to optimize project management automation. At App Mastery, I specialize in Generative AI, designing LLM-based knowledge bases, custom chatbots, and AI-driven CRM integrations.
+
+Previously, I contributed to MemoNEET by implementing AI-powered OMR evaluation and educational content generation, reducing manual workload by 95%. My time at Lise Infotech and LearnWithOne sharpened my backend and cloud deployment expertise, optimizing API performance, authentication systems, and CI/CD pipelines.
+
+Through these roles, I have gained deep expertise in AI automation, backend optimization, and cloud infrastructure, ensuring seamless integration of AI models into production systems.
+
+### Contact me at:
+
+email: hardik190103@outlook.com
+linkedin: https://www.linkedin.com/in/hdksrma/
+
+Work Experience
+
 `;
 
 // API endpoint for chat
