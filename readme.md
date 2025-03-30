@@ -192,6 +192,20 @@ Modify the colors and styles in `public/css/style.css` to match your personal br
 - Verify that port 3000 isn't in use by another application
 - Ensure Node.js is installed and is version 14 or higher
 
+## 🔒 Security Considerations
+
+### API Key Protection
+- Never commit your `.env` file containing your OpenAI API key to version control
+- Consider using environment variables in production environments
+- Rotate your API keys periodically for enhanced security
+- Set up proper API key restrictions in your OpenAI dashboard to limit usage
+
+### Data Privacy
+- Voice data transmitted to OpenAI is subject to their privacy policy
+- Consider adding a privacy notice for users of your deployed application
+- No voice recordings are stored locally or on servers, but transcribed text is sent to OpenAI
+- Be transparent with users about how their voice inputs are processed
+
 ## 🙏 Acknowledgements
 
 - [OpenAI](https://openai.com/) for the GPT API
