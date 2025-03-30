@@ -2,6 +2,14 @@
 
 A web-based voice bot that responds to interview questions about me, using speech recognition and text-to-speech capabilities.
 
+## 🌟 Live Demo
+
+**[Click here to try the live demo](https://chat-with-me-voice-agent.onrender.com)**
+
+> **Best experienced in Chrome browser for optimal speech recognition**
+
+This live demo is deployed on Render's free tier and may take 30 seconds to "wake up" if it hasn't been accessed recently.
+
 ## 🎯 Features
 
 - **Voice Recognition**: Speak your questions directly to the bot
